@@ -1,4 +1,4 @@
-package com.jpestana.mifitanalyzer;
+package dev.jpestana.mifitanalyzer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
