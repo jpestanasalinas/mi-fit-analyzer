@@ -36,7 +36,4 @@ public class ActivityCSVService {
         return CSVHelper.acctivvitiesToCSV(tutorials);
     }
 
-    public List<Activity> getAllTutorials() {
-        return repository.findAll();
-    }
 }

@@ -2,6 +2,7 @@ package dev.jpestana.mifitanalyzer.DataImporter.Entities;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
 public class Activity {
@@ -94,5 +95,24 @@ public class Activity {
 
     public void setCalories(Float calories) {
         this.calories = calories;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Activity activity = (Activity) o;
+        return Objects.equals(id, activity.id) &&
+                Objects.equals(date, activity.date) &&
+                Objects.equals(lastSyncTime, activity.lastSyncTime) &&
+                Objects.equals(steps, activity.steps) &&
+                Objects.equals(distance, activity.distance) &&
+                Objects.equals(runDistance, activity.runDistance) &&
+                Objects.equals(calories, activity.calories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, date, lastSyncTime, steps, distance, runDistance, calories);
     }
 }
