@@ -1,47 +1,67 @@
 package dev.jpestana.mifitanalyzer.DataImporter;
 
+import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeException;
 import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityCSVService;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityMinuteCSVService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.io.IOException;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/import")
 public class DataImporterController {
 
+    private static final String INVALID_FILE_MESSAGE = "Please upload a csv file!";
+    private static final String COULD_NOT_PROCESS_FILE_MESSAGE = "Could not save the data";
+
     @Autowired
-    private ActivityCSVService fileService;
+    private ActivityCSVService activityCSVService;
+
+    @Autowired
+    private ActivityMinuteCSVService activityMinuteCSVService;
 
     @PostMapping ("/activity-data")
-    public ResponseEntity<ResponseMessage> getActivityDataFromCSV(@RequestParam("file") MultipartFile file) {
-        String message;
+    public ResponseEntity<String> getActivityDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
 
-        if (CSVHelper.hasCSVFormat(file)) {
-            try {
-                fileService.save(file);
+        checkFileExists(file);
 
-                message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        activityCSVService.save(file);
+        String message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        return ResponseEntity.status(OK)
+                .body(message);
 
-                String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/api/csv/download/")
-                        .path(file.getOriginalFilename())
-                        .toUriString();
-
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message,fileDownloadUri));
-            } catch (Exception e) {
-                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message,""));
-            }
-        }
-
-        message = "Please upload a csv file!";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message,""));
     }
 
+    @PostMapping("/activity-minute-data")
+    public ResponseEntity<String> getActivityMinuteDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
+        String message;
+
+        checkFileExists(file);
+
+        activityMinuteCSVService.save(file);
+        message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        return ResponseEntity.status(OK)
+                .body(message);
+    }
+
+    private void checkFileExists(@RequestParam("file") MultipartFile file) {
+        if (file == null) {
+            throw new InvalidFileTypeException("file not exists");
+        }
+    }
+
+    @ExceptionHandler(InvalidFileTypeException.class)
+    public ResponseEntity<String> handleInvalidFileType(InvalidFileTypeException e) {
+        return ResponseEntity.status(BAD_REQUEST).body(INVALID_FILE_MESSAGE);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<String> handleIOError(IOException e) {
+        return ResponseEntity.status(EXPECTATION_FAILED).body(INVALID_FILE_MESSAGE);
+    }
 }
