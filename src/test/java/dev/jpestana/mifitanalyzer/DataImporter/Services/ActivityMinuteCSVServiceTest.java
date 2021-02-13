@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,21 +39,21 @@ class ActivityMinuteCSVServiceTest {
     }
 
     @Test
-    public void givenANullByteStreamFileWhenSaveThenThrowsRuntimeException() {
+    void givenANullByteStreamFileWhenSaveThenThrowsRuntimeException() {
         MultipartFile  file = new MockMultipartFile("file", (byte[]) null);
 
         assertThrows(RuntimeException.class, () -> service.save(file));
     }
 
     @Test
-    public void givenANotCSVFileWhenSaveThenThrowsInvalidFileTypeException() {
+    void givenANotCSVFileWhenSaveThenThrowsInvalidFileTypeException() {
         MultipartFile  file = new MockMultipartFile("file", (byte[]) null);
 
         assertThrows(InvalidFileTypeException.class, () -> service.save(file));
     }
 
     @Test
-    public void givenAEmptyFileWhenSaveThenSaveAllIsCalledOnce() throws IOException {
+    void givenAEmptyFileWhenSaveThenSaveAllIsCalledOnce() throws IOException {
         String content = "\uFEFFdate,time,steps";
         MultipartFile  file = new MockMultipartFile("file", "file","text/csv", content.getBytes());
 
@@ -64,7 +63,7 @@ class ActivityMinuteCSVServiceTest {
     }
 
     @Test
-    public void givenANotEmptyFileWhenSaveThenSaveAllIsCalledOnce() throws IOException {
+    void givenANotEmptyFileWhenSaveThenSaveAllIsCalledOnce() throws IOException {
         String content = "\uFEFFdate,time,steps\n" +
                 "\"2020-02-05\",\"2020-02-05 00:00:00\",52,10,5,123 ";
         MultipartFile  file = new MockMultipartFile("file", "file","text/csv", content.getBytes());

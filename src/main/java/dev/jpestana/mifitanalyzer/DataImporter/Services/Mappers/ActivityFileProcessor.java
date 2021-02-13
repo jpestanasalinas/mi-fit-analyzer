@@ -1,6 +1,6 @@
 package dev.jpestana.mifitanalyzer.DataImporter.Services.Mappers;
 
-import dev.jpestana.mifitanalyzer.DataImporter.Entities.ActivityMinute;
+import dev.jpestana.mifitanalyzer.DataImporter.Entities.Activity;
 import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeException;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -12,19 +12,17 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ActivityMinuteFileProcessor {
-
+public class ActivityFileProcessor {
     public static String TYPE = "text/csv";
 
-    public ActivityMinuteFileProcessor() {
+    public ActivityFileProcessor() {
     }
 
-    public List<ActivityMinute> csvToActivityMinutes(MultipartFile file) throws IOException, InvalidFileTypeException {
+    public List<Activity> csvToActivities(MultipartFile file) throws IOException, InvalidFileTypeException {
 
         if(!hasCSVFormat(file)) {
             throw new InvalidFileTypeException("file type is not compatible, only CSV accepted");
@@ -52,24 +50,27 @@ public class ActivityMinuteFileProcessor {
         return buffReadr;
     }
 
-    private List<ActivityMinute> map(BufferedReader buffReadr) throws IOException {
+    private List<Activity> map(BufferedReader buffReadr) throws IOException {
         CSVParser csvParser = new CSVParser(buffReadr,
                 CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 
-        List<ActivityMinute> activityMinutes = new ArrayList<>();
+        List<Activity> activities = new ArrayList<>();
         Iterable<CSVRecord> csvRecords = csvParser.getRecords();
 
         for (CSVRecord csvRecord : csvRecords) {
-            ActivityMinute activityMinute = new ActivityMinute(
+            Activity activity = new Activity(
                     Date.valueOf(csvRecord.get("date")),
-                    Timestamp.valueOf(csvRecord.get("time")),
-                    Integer.parseInt(csvRecord.get("steps"))
+                    Date.valueOf(csvRecord.get("lastSyncTime")),
+                    Integer.parseInt(csvRecord.get("steps")),
+                    Float.parseFloat(csvRecord.get("distance")),
+                    Float.parseFloat(csvRecord.get("runDistance")),
+                    Float.parseFloat(csvRecord.get("calories"))
             );
 
-            activityMinutes.add(activityMinute);
+            activities.add(activity);
         }
 
-        return activityMinutes;
+        return activities;
     }
 
     private boolean hasCSVFormat(MultipartFile file) {
