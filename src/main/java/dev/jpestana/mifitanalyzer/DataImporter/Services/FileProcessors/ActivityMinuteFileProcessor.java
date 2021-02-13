@@ -1,4 +1,4 @@
-package dev.jpestana.mifitanalyzer.DataImporter.Services.Mappers;
+package dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors;
 
 import dev.jpestana.mifitanalyzer.DataImporter.Entities.ActivityMinute;
 import org.apache.commons.csv.CSVFormat;

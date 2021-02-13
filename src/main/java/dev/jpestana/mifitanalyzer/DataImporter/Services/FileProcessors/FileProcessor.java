@@ -1,4 +1,4 @@
-package dev.jpestana.mifitanalyzer.DataImporter.Services.Mappers;
+package dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors;
 
 import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeException;
 import org.apache.commons.io.input.BOMInputStream;

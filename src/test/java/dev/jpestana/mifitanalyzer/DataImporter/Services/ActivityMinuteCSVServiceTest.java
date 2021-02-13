@@ -3,7 +3,7 @@ package dev.jpestana.mifitanalyzer.DataImporter.Services;
 import dev.jpestana.mifitanalyzer.DataImporter.Entities.ActivityMinute;
 import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeException;
 import dev.jpestana.mifitanalyzer.DataImporter.Repositories.ActivityMinuteRepository;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.Mappers.ActivityMinuteFileProcessor;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.ActivityMinuteFileProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

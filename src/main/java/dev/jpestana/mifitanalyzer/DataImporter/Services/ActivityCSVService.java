@@ -3,7 +3,7 @@ package dev.jpestana.mifitanalyzer.DataImporter.Services;
 import dev.jpestana.mifitanalyzer.DataImporter.Entities.Activity;
 import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeException;
 import dev.jpestana.mifitanalyzer.DataImporter.Repositories.ActivityRepository;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.Mappers.ActivityFileProcessor;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.ActivityFileProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
