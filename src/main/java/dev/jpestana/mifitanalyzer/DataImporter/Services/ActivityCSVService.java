@@ -25,7 +25,7 @@ public class ActivityCSVService {
     }
 
     public void save(MultipartFile file) throws IOException, InvalidFileTypeException {
-            List<Activity> activities = fileProcessor.csvToActivities(file);
+            List<Activity> activities = fileProcessor.parseCSV(file);
             repository.saveAll(activities);
     }
 

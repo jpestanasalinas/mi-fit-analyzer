@@ -27,7 +27,7 @@ public class ActivityMinuteCSVService implements CSVService {
     @Override
     public void save(MultipartFile file) throws IOException, InvalidFileTypeException {
 
-        List<ActivityMinute> activityMinutes = fileProcessor.csvToActivityMinutes(file);
+        List<ActivityMinute> activityMinutes = fileProcessor.parseCSV(file);
 
         repository.saveAll(activityMinutes);
     }
