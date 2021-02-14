@@ -17,8 +17,8 @@ import static org.springframework.http.HttpStatus.*;
 @RequestMapping("/import")
 public class DataImporterController {
 
-    private static final String INVALID_FILE_MESSAGE = "Please upload a csv file!";
-    private static final String COULD_NOT_PROCESS_FILE_MESSAGE = "Could not save the data";
+    public static final String INVALID_FILE_MESSAGE = "Please upload a csv file!";
+    public static final String COULD_NOT_PROCESS_FILE_MESSAGE = "Could not save the data";
 
     @Autowired
     private ActivityCSVService activityCSVService;
@@ -74,6 +74,6 @@ public class DataImporterController {
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<String> handleIOError(IOException e) {
-        return ResponseEntity.status(EXPECTATION_FAILED).body(INVALID_FILE_MESSAGE);
+        return ResponseEntity.status(EXPECTATION_FAILED).body(COULD_NOT_PROCESS_FILE_MESSAGE);
     }
 }
