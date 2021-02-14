@@ -1,4 +1,4 @@
-package dev.jpestana.mifitanalyzer.DataImporter.Services.Mappers;
+package dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors;
 
 import dev.jpestana.mifitanalyzer.DataImporter.Entities.ActivityMinute;
 import org.apache.commons.csv.CSVFormat;
@@ -15,8 +15,6 @@ import java.util.List;
 
 @Component
 public class ActivityMinuteFileProcessor extends FileProcessor<ActivityMinute> {
-
-    public static String TYPE = "text/csv";
 
     public ActivityMinuteFileProcessor() {
         super();

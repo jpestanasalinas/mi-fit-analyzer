@@ -9,3 +9,24 @@ CREATE TABLE activity (
   run_distance DECIMAL,
   calories DECIMAL
 );
+
+DROP TABLE IF EXISTS activityminute;
+
+CREATE TABLE activityminute (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  date DATE NOT NULL,
+  time TIMESTAMP ,
+  steps INT
+);
+
+DROP TABLE IF EXISTS activitystage;
+
+CREATE TABLE activitystage (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  date DATE NOT NULL,
+  start TIMESTAMP ,
+  stop TIMESTAMP ,
+  distance DECIMAL,
+  calories DECIMAL,
+  steps INT
+);

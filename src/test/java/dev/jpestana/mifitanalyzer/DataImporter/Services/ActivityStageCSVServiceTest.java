@@ -1,9 +1,10 @@
 package dev.jpestana.mifitanalyzer.DataImporter.Services;
 
 import dev.jpestana.mifitanalyzer.DataImporter.Entities.ActivityMinute;
+import dev.jpestana.mifitanalyzer.DataImporter.Entities.ActivityStage;
 import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeException;
-import dev.jpestana.mifitanalyzer.DataImporter.Repositories.ActivityMinuteRepository;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.ActivityMinuteFileProcessor;
+import dev.jpestana.mifitanalyzer.DataImporter.Repositories.ActivityStageRepository;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.ActivityStageFileProccessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,29 +19,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ActivityMinuteCSVServiceTest {
+class ActivityStageCSVServiceTest {
 
     @InjectMocks
-    private ActivityMinuteCSVService service;
+    private ActivityStageCSVService service;
 
     @Mock
-    private ActivityMinuteRepository repository;
+    private ActivityStageRepository repository;
 
-    private ActivityMinuteFileProcessor fileProcessor;
+    private ActivityStageFileProccessor fileProccessor;
 
     @BeforeEach
     void setUp() {
-        repository = mock(ActivityMinuteRepository.class);
-        fileProcessor = new ActivityMinuteFileProcessor();
-        service = new ActivityMinuteCSVService(repository, fileProcessor);
+        repository = mock(ActivityStageRepository.class);
+        fileProccessor = new ActivityStageFileProccessor();
+        service = new ActivityStageCSVService(repository,fileProccessor);
     }
 
     @Test
     void givenANullByteStreamFileWhenSaveThenThrowsRuntimeException() {
-        MultipartFile  file = new MockMultipartFile("file", (byte[]) null);
+        MultipartFile file = new MockMultipartFile("file", (byte[]) null);
 
         assertThrows(RuntimeException.class, () -> service.save(file));
     }
@@ -54,7 +55,7 @@ class ActivityMinuteCSVServiceTest {
 
     @Test
     void givenAEmptyFileWhenSaveThenSaveAllIsCalledOnce() throws IOException {
-        String content = "\uFEFFdate,time,steps";
+        String content = "\uFEFFdate,start,stop,distance,calories,steps";
         MultipartFile  file = new MockMultipartFile("file", "file","text/csv", content.getBytes());
 
         service.save(file);
@@ -64,19 +65,23 @@ class ActivityMinuteCSVServiceTest {
 
     @Test
     void givenANotEmptyFileWhenSaveThenSaveAllIsCalledOnce() throws IOException {
-        String content = "\uFEFFdate,time,steps\n" +
-                "\"2020-02-05\",\"2020-02-05 00:00:00\",52,10,5,123 ";
+        String content = "\uFEFFdate,start,stop,distance,calories,steps\n" +
+                "\"2020-02-05\",\"2020-02-05 00:00:00\",\"2020-02-05 00:01:00\",52,52,3000";
         MultipartFile  file = new MockMultipartFile("file", "file","text/csv", content.getBytes());
 
-        List<ActivityMinute> activityMinutes = Collections.singletonList(
-                new ActivityMinute(
+        List<ActivityStage> activityStages = Collections.singletonList(
+                new ActivityStage(
                         Date.valueOf("2020-02-05"),
                         Timestamp.valueOf("2020-02-05 00:00:00"),
-                        52)
+                        Timestamp.valueOf("2020-02-05 00:01:00"),
+                        52f,
+                        52f,
+                        3000)
         );
 
         service.save(file);
 
-        verify(repository, times(1)).saveAll(activityMinutes);
+        verify(repository, times(1)).saveAll(activityStages);
     }
+
 }
