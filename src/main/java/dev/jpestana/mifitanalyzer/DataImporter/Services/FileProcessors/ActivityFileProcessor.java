@@ -14,7 +14,6 @@ import java.util.List;
 
 @Component
 public class ActivityFileProcessor extends FileProcessor<Activity> {
-    public static String TYPE = "text/csv";
 
     public ActivityFileProcessor() {
         super();

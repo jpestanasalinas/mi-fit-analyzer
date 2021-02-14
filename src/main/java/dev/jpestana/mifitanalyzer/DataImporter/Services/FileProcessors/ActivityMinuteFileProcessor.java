@@ -16,8 +16,6 @@ import java.util.List;
 @Component
 public class ActivityMinuteFileProcessor extends FileProcessor<ActivityMinute> {
 
-    public static String TYPE = "text/csv";
-
     public ActivityMinuteFileProcessor() {
         super();
     }
