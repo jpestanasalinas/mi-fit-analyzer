@@ -19,9 +19,9 @@ CREATE TABLE activityminute (
   steps INT
 );
 
-DROP TABLE IF EXISTS activity;
+DROP TABLE IF EXISTS activitystage;
 
-CREATE TABLE activity (
+CREATE TABLE activitystage (
   id INT AUTO_INCREMENT  PRIMARY KEY,
   date DATE NOT NULL,
   start TIMESTAMP ,
