@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
+@Table(name = "activity")
 public class Activity {
 
     @Id

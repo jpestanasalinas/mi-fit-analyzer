@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@Table(name = "activityminute")
 public class ActivityMinute {
 
     @Id
