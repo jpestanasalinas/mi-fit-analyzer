@@ -42,62 +42,6 @@ public class Activity {
         this.calories = calories;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Date getLastSyncTime() {
-        return lastSyncTime;
-    }
-
-    public void setLastSyncTime(Date lastSyncTime) {
-        this.lastSyncTime = lastSyncTime;
-    }
-
-    public Integer getSteps() {
-        return steps;
-    }
-
-    public void setSteps(Integer steps) {
-        this.steps = steps;
-    }
-
-    public Float getDistance() {
-        return distance;
-    }
-
-    public void setDistance(Float distance) {
-        this.distance = distance;
-    }
-
-    public Float getRunDistance() {
-        return runDistance;
-    }
-
-    public void setRunDistance(Float runDistance) {
-        this.runDistance = runDistance;
-    }
-
-    public Float getCalories() {
-        return calories;
-    }
-
-    public void setCalories(Float calories) {
-        this.calories = calories;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
