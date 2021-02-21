@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class ActivityCSVService {
 
-    private ActivityRepository repository;
+    private final ActivityRepository repository;
 
     private final ActivityFileProcessor fileProcessor;
 

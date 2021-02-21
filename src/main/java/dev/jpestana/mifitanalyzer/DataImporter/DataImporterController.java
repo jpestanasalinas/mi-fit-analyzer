@@ -4,6 +4,7 @@ import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeExcepti
 import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityCSVService;
 import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityMinuteCSVService;
 import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityStageCSVService;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.BodyCSVService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,9 @@ public class DataImporterController {
     @Autowired
     private ActivityStageCSVService activityStageCSVService;
 
+    @Autowired
+    private BodyCSVService bodyCSVService;
+
     @PostMapping ("/activity-data")
     public ResponseEntity<String> getActivityDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
 
@@ -52,6 +56,15 @@ public class DataImporterController {
     public ResponseEntity<String> getActivityStageDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
 
         activityStageCSVService.save(file);
+        String message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        return ResponseEntity.status(OK)
+                .body(message);
+    }
+
+    @PostMapping("/body-data")
+    public ResponseEntity<String> getBodyDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
+
+        bodyCSVService.save(file);
         String message = "Uploaded the file successfully: " + file.getOriginalFilename();
         return ResponseEntity.status(OK)
                 .body(message);
