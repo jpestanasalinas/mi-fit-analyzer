@@ -32,8 +32,6 @@ public class DataImporterController {
     @PostMapping ("/activity-data")
     public ResponseEntity<String> getActivityDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
 
-        checkFileExists(file);
-
         activityCSVService.save(file);
         String message = "Uploaded the file successfully: " + file.getOriginalFilename();
         return ResponseEntity.status(OK)
@@ -43,7 +41,6 @@ public class DataImporterController {
 
     @PostMapping("/activity-minute-data")
     public ResponseEntity<String> getActivityMinuteDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
-        checkFileExists(file);
 
         activityMinuteCSVService.save(file);
         String message = "Uploaded the file successfully: " + file.getOriginalFilename();
@@ -53,18 +50,11 @@ public class DataImporterController {
 
     @PostMapping("/activity-stage-data")
     public ResponseEntity<String> getActivityStageDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
-        checkFileExists(file);
 
         activityStageCSVService.save(file);
         String message = "Uploaded the file successfully: " + file.getOriginalFilename();
         return ResponseEntity.status(OK)
                 .body(message);
-    }
-
-    private void checkFileExists(@RequestParam("file") MultipartFile file) {
-        if (file == null) {
-            throw new InvalidFileTypeException("file not exists");
-        }
     }
 
     @ExceptionHandler(InvalidFileTypeException.class)
