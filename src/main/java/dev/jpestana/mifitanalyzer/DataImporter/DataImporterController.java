@@ -1,11 +1,9 @@
 package dev.jpestana.mifitanalyzer.DataImporter;
 
 import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeException;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityCSVService;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityMinuteCSVService;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityStageCSVService;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.BodyCSVService;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.CSVService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,17 +19,24 @@ public class DataImporterController {
     public static final String INVALID_FILE_MESSAGE = "Please upload a csv file!";
     public static final String COULD_NOT_PROCESS_FILE_MESSAGE = "Could not save the data";
 
-    @Autowired
-    private ActivityCSVService activityCSVService;
+    private final CSVService activityCSVService;
+
+    private final CSVService activityMinuteCSVService;
+
+    private final CSVService activityStageCSVService;
+
+    private final CSVService bodyCSVService;
 
     @Autowired
-    private ActivityMinuteCSVService activityMinuteCSVService;
-
-    @Autowired
-    private ActivityStageCSVService activityStageCSVService;
-
-    @Autowired
-    private BodyCSVService bodyCSVService;
+    public DataImporterController(@Qualifier("activityCSVService") CSVService activityCSVService,
+                                  @Qualifier("activityMinuteCSVService") CSVService activityMinuteCSVService,
+                                  @Qualifier("activityStageCSVService") CSVService activityStageCSVService,
+                                  @Qualifier("bodyCSVService") CSVService bodyCSVService) {
+        this.activityCSVService = activityCSVService;
+        this.activityMinuteCSVService = activityMinuteCSVService;
+        this.activityStageCSVService = activityStageCSVService;
+        this.bodyCSVService = bodyCSVService;
+    }
 
     @PostMapping ("/activity-data")
     public ResponseEntity<String> getActivityDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
