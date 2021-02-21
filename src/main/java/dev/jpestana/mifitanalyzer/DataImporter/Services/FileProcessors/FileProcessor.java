@@ -17,9 +17,7 @@ public abstract class FileProcessor<T> {
 
     public List<T> parseCSV(MultipartFile file) throws IOException, InvalidFileTypeException {
 
-        if(!hasCSVFormat(file)) {
-            throw new InvalidFileTypeException("file type is not compatible, only CSV accepted");
-        }
+        throwExceptionWhen(file == null || !hasCSVFormat(file));
 
         InputStream is = file.getInputStream();
         try(BufferedInputStream buffIs = new BufferedInputStream(is);
@@ -30,6 +28,12 @@ public abstract class FileProcessor<T> {
 
         } catch (IOException e) {
             throw new RuntimeException("fail to parse CSV file: " + e.getMessage());
+        }
+    }
+
+    private void throwExceptionWhen(boolean condition) {
+        if (condition) {
+            throw new InvalidFileTypeException("invalid or not found file, only CSV accepted");
         }
     }
 
