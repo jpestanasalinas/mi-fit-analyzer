@@ -1,10 +1,7 @@
 package dev.jpestana.mifitanalyzer.DataImporter;
 
 import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeException;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityCSVService;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityMinuteCSVService;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityStageCSVService;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.BodyCSVService;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,7 +30,8 @@ class DataImporterControllerTest {
             "/import/activity-data",
             "/import/activity-minute-data",
             "/import/activity-stage-data",
-            "/import/body-data"
+            "/import/body-data",
+            "/import/heartrate-data"
     );
 
     @Autowired
@@ -47,6 +45,8 @@ class DataImporterControllerTest {
     private ActivityStageCSVService activityStageCSVService;
     @MockBean
     private BodyCSVService bodyCSVService;
+    @MockBean
+    private HeartrateCSVService heartrateCSVService;
 
     @Test
     void whenInvalidFileTypeExceptionShouldReturnBadRequest() throws Exception {
@@ -57,6 +57,7 @@ class DataImporterControllerTest {
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(activityMinuteCSVService).save(file);
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(activityStageCSVService).save(file);
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(bodyCSVService).save(file);
+        doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(heartrateCSVService).save(file);
 
         performRequestsExpecting(status().isBadRequest(), file);
     }
@@ -70,6 +71,7 @@ class DataImporterControllerTest {
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(activityMinuteCSVService).save(file);
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(activityStageCSVService).save(file);
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(bodyCSVService).save(file);
+        doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(heartrateCSVService).save(file);
 
         performRequestsExpecting(status().isExpectationFailed(), file);
     }
@@ -83,6 +85,7 @@ class DataImporterControllerTest {
         doNothing().when(activityMinuteCSVService).save(file);
         doNothing().when(activityStageCSVService).save(file);
         doNothing().when(bodyCSVService).save(file);
+        doNothing().when(heartrateCSVService).save(file);
 
         performRequestsExpecting(status().isOk(), file);
     }

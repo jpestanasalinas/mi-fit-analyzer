@@ -47,3 +47,13 @@ CREATE TABLE body (
   visceralFat DECIMAL,
   impedance DECIMAL
 );
+
+DROP TABLE IF EXISTS heartrate;
+
+CREATE TABLE heartrate (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  date DATE,
+  lastSyncTime TIMESTAMP,
+  heartRate INT,
+  timestamp TIMESTAMP
+);
