@@ -4,6 +4,7 @@ import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeExcepti
 import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityCSVService;
 import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityMinuteCSVService;
 import dev.jpestana.mifitanalyzer.DataImporter.Services.ActivityStageCSVService;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.BodyCSVService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,11 +12,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import static dev.jpestana.mifitanalyzer.DataImporter.DataImporterController.COULD_NOT_PROCESS_FILE_MESSAGE;
 import static dev.jpestana.mifitanalyzer.DataImporter.DataImporterController.INVALID_FILE_MESSAGE;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -23,6 +28,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class DataImporterControllerTest {
+
+    public static final List<String> URL_PATHS = Arrays.asList(
+            "/import/activity-data",
+            "/import/activity-minute-data",
+            "/import/activity-stage-data",
+            "/import/body-data"
+    );
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,6 +45,8 @@ class DataImporterControllerTest {
     private ActivityMinuteCSVService activityMinuteCSVService;
     @MockBean
     private ActivityStageCSVService activityStageCSVService;
+    @MockBean
+    private BodyCSVService bodyCSVService;
 
     @Test
     void whenInvalidFileTypeExceptionShouldReturnBadRequest() throws Exception {
@@ -42,13 +56,9 @@ class DataImporterControllerTest {
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(activityCSVService).save(file);
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(activityMinuteCSVService).save(file);
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(activityStageCSVService).save(file);
+        doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(bodyCSVService).save(file);
 
-        mockMvc.perform(multipart("/import/activity-data").file(file))
-                .andExpect(status().isBadRequest());
-        mockMvc.perform(multipart("/import/activity-minute-data").file(file))
-                .andExpect(status().isBadRequest());
-        mockMvc.perform(multipart("/import/activity-stage-data").file(file))
-                .andExpect(status().isBadRequest());
+        performRequestsExpecting(status().isBadRequest(), file);
     }
 
     @Test
@@ -59,13 +69,9 @@ class DataImporterControllerTest {
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(activityCSVService).save(file);
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(activityMinuteCSVService).save(file);
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(activityStageCSVService).save(file);
+        doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(bodyCSVService).save(file);
 
-        mockMvc.perform(multipart("/import/activity-data").file(file))
-                .andExpect(status().isExpectationFailed());
-        mockMvc.perform(multipart("/import/activity-minute-data").file(file))
-                .andExpect(status().isExpectationFailed());
-        mockMvc.perform(multipart("/import/activity-stage-data").file(file))
-                .andExpect(status().isExpectationFailed());
+        performRequestsExpecting(status().isExpectationFailed(), file);
     }
 
     @Test
@@ -73,12 +79,19 @@ class DataImporterControllerTest {
         String content = "";
         MockMultipartFile file = new MockMultipartFile("file", "file","text/csv", content.getBytes());
 
-        mockMvc.perform(multipart("/import/activity-data").file(file))
-                .andExpect(status().isOk());
-        mockMvc.perform(multipart("/import/activity-minute-data").file(file))
-                .andExpect(status().isOk());
-        mockMvc.perform(multipart("/import/activity-stage-data").file(file))
-                .andExpect(status().isOk());
+        doNothing().when(activityCSVService).save(file);
+        doNothing().when(activityMinuteCSVService).save(file);
+        doNothing().when(activityStageCSVService).save(file);
+        doNothing().when(bodyCSVService).save(file);
+
+        performRequestsExpecting(status().isOk(), file);
+    }
+
+    private void performRequestsExpecting(ResultMatcher status, MockMultipartFile file) throws Exception {
+        for(String urlPath: URL_PATHS) {
+            mockMvc.perform(multipart(urlPath).file(file))
+                    .andExpect(status);
+        }
     }
 
 }

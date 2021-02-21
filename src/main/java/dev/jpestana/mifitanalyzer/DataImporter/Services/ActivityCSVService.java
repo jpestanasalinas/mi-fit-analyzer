@@ -5,6 +5,7 @@ import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeExcepti
 import dev.jpestana.mifitanalyzer.DataImporter.Repositories.ActivityRepository;
 import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.ActivityFileProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,9 +13,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class ActivityCSVService {
+@Qualifier("activityCSVService")
+public class ActivityCSVService implements CSVService{
 
-    private ActivityRepository repository;
+    private final ActivityRepository repository;
 
     private final ActivityFileProcessor fileProcessor;
 

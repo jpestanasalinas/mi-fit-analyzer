@@ -30,3 +30,20 @@ CREATE TABLE activitystage (
   calories DECIMAL,
   steps INT
 );
+
+DROP TABLE IF EXISTS body;
+
+CREATE TABLE body (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  timestamp TIMESTAMP,
+  weight DECIMAL,
+  height DECIMAL,
+  bmi INT,
+  fatRate DECIMAL,
+  bodyWaterRate DECIMAL,
+  boneMass DECIMAL,
+  metabolism DECIMAL,
+  muscleRate DECIMAL,
+  visceralFat DECIMAL,
+  impedance DECIMAL
+);
