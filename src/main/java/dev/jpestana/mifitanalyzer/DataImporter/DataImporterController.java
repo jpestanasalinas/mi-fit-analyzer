@@ -27,15 +27,19 @@ public class DataImporterController {
 
     private final CSVService bodyCSVService;
 
+    private final CSVService heartrateCSVService;
+
     @Autowired
     public DataImporterController(@Qualifier("activityCSVService") CSVService activityCSVService,
                                   @Qualifier("activityMinuteCSVService") CSVService activityMinuteCSVService,
                                   @Qualifier("activityStageCSVService") CSVService activityStageCSVService,
-                                  @Qualifier("bodyCSVService") CSVService bodyCSVService) {
+                                  @Qualifier("bodyCSVService") CSVService bodyCSVService,
+                                  @Qualifier("heartrateCSVService") CSVService heartrateCSVService) {
         this.activityCSVService = activityCSVService;
         this.activityMinuteCSVService = activityMinuteCSVService;
         this.activityStageCSVService = activityStageCSVService;
         this.bodyCSVService = bodyCSVService;
+        this.heartrateCSVService = heartrateCSVService;
     }
 
     @PostMapping ("/activity-data")
@@ -70,6 +74,15 @@ public class DataImporterController {
     public ResponseEntity<String> getBodyDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
 
         bodyCSVService.save(file);
+        String message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        return ResponseEntity.status(OK)
+                .body(message);
+    }
+
+    @PostMapping("/heartrate-data")
+    public ResponseEntity<String> getHeartrateDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
+
+        heartrateCSVService.save(file);
         String message = "Uploaded the file successfully: " + file.getOriginalFilename();
         return ResponseEntity.status(OK)
                 .body(message);
