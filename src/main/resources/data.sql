@@ -66,3 +66,15 @@ CREATE TABLE heartrateAuto (
   time TIMESTAMP,
   heartRate INT
   );
+
+  DROP TABLE IF EXISTS sleep;
+
+  CREATE TABLE sleep (
+    id INT AUTO_INCREMENT  PRIMARY KEY,
+    lastSyncTime TIMESTAMP,
+    deepSleepTime INT,
+    shallowSleepTime INT,
+    wakeTime INT,
+    start TIMESTAMP,
+    stop TIMESTAMP
+    );

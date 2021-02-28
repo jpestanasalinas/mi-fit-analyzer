@@ -31,19 +31,23 @@ public class DataImporterController {
 
     private final CSVService heartrateAutoCSVService;
 
+    private final CSVService sleepCSVService;
+
     @Autowired
     public DataImporterController(@Qualifier("activityCSVService") CSVService activityCSVService,
                                   @Qualifier("activityMinuteCSVService") CSVService activityMinuteCSVService,
                                   @Qualifier("activityStageCSVService") CSVService activityStageCSVService,
                                   @Qualifier("bodyCSVService") CSVService bodyCSVService,
                                   @Qualifier("heartrateCSVService") CSVService heartrateCSVService,
-                                  @Qualifier("heartrateAutoCSVService") CSVService heartrateAutoCSVService) {
+                                  @Qualifier("heartrateAutoCSVService") CSVService heartrateAutoCSVService,
+                                  @Qualifier("sleepCSVService") CSVService sleepCSVService) {
         this.activityCSVService = activityCSVService;
         this.activityMinuteCSVService = activityMinuteCSVService;
         this.activityStageCSVService = activityStageCSVService;
         this.bodyCSVService = bodyCSVService;
         this.heartrateCSVService = heartrateCSVService;
         this.heartrateAutoCSVService = heartrateAutoCSVService;
+        this.sleepCSVService = sleepCSVService;
     }
 
     @PostMapping ("/activity-data")
@@ -96,6 +100,15 @@ public class DataImporterController {
     public ResponseEntity<String> getHeartrateAutoDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
 
         heartrateAutoCSVService.save(file);
+        String message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        return ResponseEntity.status(OK)
+                .body(message);
+    }
+
+    @PostMapping("/sleep-data")
+    public ResponseEntity<String> getSleepDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
+
+        sleepCSVService.save(file);
         String message = "Uploaded the file successfully: " + file.getOriginalFilename();
         return ResponseEntity.status(OK)
                 .body(message);

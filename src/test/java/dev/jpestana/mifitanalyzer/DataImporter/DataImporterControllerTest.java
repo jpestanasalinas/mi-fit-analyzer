@@ -32,7 +32,8 @@ class DataImporterControllerTest {
             "/import/activity-stage-data",
             "/import/body-data",
             "/import/heartrate-data",
-            "/import/heartrate-auto-data"
+            "/import/heartrate-auto-data",
+            "/import/sleep-data"
     );
 
     @Autowired
@@ -50,6 +51,8 @@ class DataImporterControllerTest {
     private HeartrateCSVService heartrateCSVService;
     @MockBean
     private HeartrateAutoCSVService heartrateAutoCSVService;
+    @MockBean
+    private SleepCSVService sleepCSVService;
 
     @Test
     void whenInvalidFileTypeExceptionShouldReturnBadRequest() throws Exception {
@@ -62,6 +65,7 @@ class DataImporterControllerTest {
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(bodyCSVService).save(file);
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(heartrateCSVService).save(file);
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(heartrateAutoCSVService).save(file);
+        doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(sleepCSVService).save(file);
 
         performRequestsExpecting(status().isBadRequest(), file);
     }
@@ -77,6 +81,7 @@ class DataImporterControllerTest {
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(bodyCSVService).save(file);
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(heartrateCSVService).save(file);
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(heartrateAutoCSVService).save(file);
+        doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(sleepCSVService).save(file);
 
         performRequestsExpecting(status().isExpectationFailed(), file);
     }
@@ -92,6 +97,7 @@ class DataImporterControllerTest {
         doNothing().when(bodyCSVService).save(file);
         doNothing().when(heartrateCSVService).save(file);
         doNothing().when(heartrateAutoCSVService).save(file);
+        doNothing().when(sleepCSVService).save(file);
 
         performRequestsExpecting(status().isOk(), file);
     }
