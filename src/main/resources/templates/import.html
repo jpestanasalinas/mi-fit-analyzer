@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    </head>
+    <body>
+        <h2>Activity Data</h2>
+        <form method="POST" th:action="@{/import/activity-data}" enctype="multipart/form-data">
+            <div class="form-group mt-3">
+                <label for="file">Select a CSV file</label>
+                <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+            </div>
+            <button type="submit" class="btn btn-primary">Import</button>
+        </form>
+        <h2>Activity Minute Data</h2>
+        <form method="POST" th:action="@{/import/activity-minute-data}" enctype="multipart/form-data">
+            <div class="form-group mt-3">
+                <label for="file">Select a CSV file</label>
+                <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+            </div>
+            <button type="submit" class="btn btn-primary">Import</button>
+        </form>
+        <h2>Activity Stage Data</h2>
+        <form method="POST" th:action="@{/import/activity-stage-data}" enctype="multipart/form-data">
+            <div class="form-group mt-3">
+                <label for="file">Select a CSV file</label>
+                <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+            </div>
+            <button type="submit" class="btn btn-primary">Import</button>
+        </form>
+        <h2>Body Data</h2>
+        <form method="POST" th:action="@{/import/body-data}" enctype="multipart/form-data">
+            <div class="form-group mt-3">
+                <label for="file">Select a CSV file</label>
+                <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+            </div>
+            <button type="submit" class="btn btn-primary">Import</button>
+        </form>
+        <h2>Heartrate Data</h2>
+        <form method="POST" th:action="@{/import/heartrate-data}" enctype="multipart/form-data">
+            <div class="form-group mt-3">
+                <label for="file">Select a CSV file</label>
+                <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+            </div>
+            <button type="submit" class="btn btn-primary">Import</button>
+        </form>
+        <h2>Heartrate Auto Data</h2>
+        <form method="POST" th:action="@{/import/heartrate-auto-data}" enctype="multipart/form-data">
+            <div class="form-group mt-3">
+                <label for="file">Select a CSV file</label>
+                <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+            </div>
+            <button type="submit" class="btn btn-primary">Import</button>
+        </form>
+        <h2>Sleep Data</h2>
+        <form method="POST" th:action="@{/import/sleep-data}" enctype="multipart/form-data">
+            <div class="form-group mt-3">
+                <label for="file">Select a CSV file</label>
+                <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+            </div>
+            <button type="submit" class="btn btn-primary">Import</button>
+        </form>
+        <h2>Sport Data</h2>
+        <form method="POST" th:action="@{/import/sport-data}" enctype="multipart/form-data">
+            <div class="form-group mt-3">
+                <label for="file">Select a CSV file</label>
+                <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+            </div>
+            <button type="submit" class="btn btn-primary">Import</button>
+        </form>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+    </body>
+</html>
