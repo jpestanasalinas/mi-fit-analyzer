@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ActivityStageFileProccessor extends FileProcessor<ActivityStage> {
+public class ActivityStageFileProcessor extends FileProcessor<ActivityStage> {
 
-    public ActivityStageFileProccessor() {
+    public ActivityStageFileProcessor() {
         super();
     }
 

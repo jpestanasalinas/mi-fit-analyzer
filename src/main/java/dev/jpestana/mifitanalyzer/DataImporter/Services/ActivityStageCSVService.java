@@ -2,7 +2,7 @@ package dev.jpestana.mifitanalyzer.DataImporter.Services;
 
 import dev.jpestana.mifitanalyzer.DataImporter.Entities.ActivityStage;
 import dev.jpestana.mifitanalyzer.DataImporter.Repositories.ActivityStageRepository;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.ActivityStageFileProccessor;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.ActivityStageFileProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,17 +17,17 @@ public class ActivityStageCSVService implements CSVService {
 
     private final ActivityStageRepository repository;
 
-    private final ActivityStageFileProccessor fileProccessor;
+    private final ActivityStageFileProcessor fileProcessor;
 
     @Autowired
-    public ActivityStageCSVService(ActivityStageRepository repository, ActivityStageFileProccessor fileProccessor) {
+    public ActivityStageCSVService(ActivityStageRepository repository, ActivityStageFileProcessor fileProcessor) {
         this.repository = repository;
-        this.fileProccessor = fileProccessor;
+        this.fileProcessor = fileProcessor;
     }
 
     @Override
     public void save(MultipartFile file) throws IOException {
-        List<ActivityStage> activityStages = fileProccessor.parseCSV(file);
+        List<ActivityStage> activityStages = fileProcessor.parseCSV(file);
 
         repository.saveAll(activityStages);
     }

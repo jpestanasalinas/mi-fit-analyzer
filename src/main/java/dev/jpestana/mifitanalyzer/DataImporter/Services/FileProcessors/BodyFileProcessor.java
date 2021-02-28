@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class BodyFileProccessor extends FileProcessor<Body> {
+public class BodyFileProcessor extends FileProcessor<Body> {
 
-    public BodyFileProccessor() {
+    public BodyFileProcessor() {
         super();
     }
 

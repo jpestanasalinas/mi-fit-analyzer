@@ -29,13 +29,13 @@ class HeartrateAutoCSVServiceTest {
     @Mock
     private HeartrateAutoRepository repository;
 
-    private HeartrateAutoFileProcessor fileProccessor;
+    private HeartrateAutoFileProcessor fileProcessor;
 
     @BeforeEach
     void setUp() {
         repository = mock(HeartrateAutoRepository.class);
-        fileProccessor = new HeartrateAutoFileProcessor();
-        service = new HeartrateAutoCSVService(repository,fileProccessor);
+        fileProcessor = new HeartrateAutoFileProcessor();
+        service = new HeartrateAutoCSVService(repository, fileProcessor);
     }
 
     @Test

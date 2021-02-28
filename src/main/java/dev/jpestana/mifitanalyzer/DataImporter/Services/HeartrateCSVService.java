@@ -2,7 +2,7 @@ package dev.jpestana.mifitanalyzer.DataImporter.Services;
 
 import dev.jpestana.mifitanalyzer.DataImporter.Entities.Heartrate;
 import dev.jpestana.mifitanalyzer.DataImporter.Repositories.HeartrateRepository;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.HeartrateFileProccessor;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.HeartrateFileProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,10 @@ import java.util.List;
 public class HeartrateCSVService implements CSVService {
 
     private final HeartrateRepository repository;
-    private final HeartrateFileProccessor fileProcessor;
+    private final HeartrateFileProcessor fileProcessor;
 
     @Autowired
-    public HeartrateCSVService(HeartrateRepository repository, HeartrateFileProccessor fileProcessor) {
+    public HeartrateCSVService(HeartrateRepository repository, HeartrateFileProcessor fileProcessor) {
         this.repository = repository;
         this.fileProcessor = fileProcessor;
     }

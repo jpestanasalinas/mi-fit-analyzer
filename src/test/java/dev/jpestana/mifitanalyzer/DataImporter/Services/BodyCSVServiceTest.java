@@ -3,7 +3,7 @@ package dev.jpestana.mifitanalyzer.DataImporter.Services;
 import dev.jpestana.mifitanalyzer.DataImporter.Entities.Body;
 import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeException;
 import dev.jpestana.mifitanalyzer.DataImporter.Repositories.BodyRepository;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.BodyFileProccessor;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.BodyFileProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,13 +28,13 @@ class BodyCSVServiceTest {
     @Mock
     private BodyRepository repository;
 
-    private BodyFileProccessor fileProccessor;
+    private BodyFileProcessor fileProcessor;
 
     @BeforeEach
     void setUp() {
         repository = mock(BodyRepository.class);
-        fileProccessor = new BodyFileProccessor();
-        service = new BodyCSVService(repository,fileProccessor);
+        fileProcessor = new BodyFileProcessor();
+        service = new BodyCSVService(repository, fileProcessor);
     }
 
     @Test

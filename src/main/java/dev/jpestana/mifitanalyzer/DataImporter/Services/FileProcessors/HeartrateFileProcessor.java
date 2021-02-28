@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class HeartrateFileProccessor extends FileProcessor<Heartrate> {
+public class HeartrateFileProcessor extends FileProcessor<Heartrate> {
 
-    public HeartrateFileProccessor() {
+    public HeartrateFileProcessor() {
         super();
     }
 

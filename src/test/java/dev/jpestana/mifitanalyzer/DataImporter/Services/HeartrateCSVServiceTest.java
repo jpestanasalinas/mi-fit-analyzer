@@ -3,7 +3,7 @@ package dev.jpestana.mifitanalyzer.DataImporter.Services;
 import dev.jpestana.mifitanalyzer.DataImporter.Entities.Heartrate;
 import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeException;
 import dev.jpestana.mifitanalyzer.DataImporter.Repositories.HeartrateRepository;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.HeartrateFileProccessor;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.HeartrateFileProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,13 +29,13 @@ class HeartrateCSVServiceTest {
     @Mock
     private HeartrateRepository repository;
 
-    private HeartrateFileProccessor fileProccessor;
+    private HeartrateFileProcessor fileProcessor;
 
     @BeforeEach
     void setUp() {
         repository = mock(HeartrateRepository.class);
-        fileProccessor = new HeartrateFileProccessor();
-        service = new HeartrateCSVService(repository,fileProccessor);
+        fileProcessor = new HeartrateFileProcessor();
+        service = new HeartrateCSVService(repository, fileProcessor);
     }
 
     @Test

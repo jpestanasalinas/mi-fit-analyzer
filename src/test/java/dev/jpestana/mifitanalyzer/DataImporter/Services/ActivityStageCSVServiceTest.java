@@ -1,10 +1,9 @@
 package dev.jpestana.mifitanalyzer.DataImporter.Services;
 
-import dev.jpestana.mifitanalyzer.DataImporter.Entities.ActivityMinute;
 import dev.jpestana.mifitanalyzer.DataImporter.Entities.ActivityStage;
 import dev.jpestana.mifitanalyzer.DataImporter.Exceptions.InvalidFileTypeException;
 import dev.jpestana.mifitanalyzer.DataImporter.Repositories.ActivityStageRepository;
-import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.ActivityStageFileProccessor;
+import dev.jpestana.mifitanalyzer.DataImporter.Services.FileProcessors.ActivityStageFileProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -30,13 +29,13 @@ class ActivityStageCSVServiceTest {
     @Mock
     private ActivityStageRepository repository;
 
-    private ActivityStageFileProccessor fileProccessor;
+    private ActivityStageFileProcessor fileProcessor;
 
     @BeforeEach
     void setUp() {
         repository = mock(ActivityStageRepository.class);
-        fileProccessor = new ActivityStageFileProccessor();
-        service = new ActivityStageCSVService(repository,fileProccessor);
+        fileProcessor = new ActivityStageFileProcessor();
+        service = new ActivityStageCSVService(repository, fileProcessor);
     }
 
     @Test
