@@ -29,17 +29,21 @@ public class DataImporterController {
 
     private final CSVService heartrateCSVService;
 
+    private final CSVService heartrateAutoCSVService;
+
     @Autowired
     public DataImporterController(@Qualifier("activityCSVService") CSVService activityCSVService,
                                   @Qualifier("activityMinuteCSVService") CSVService activityMinuteCSVService,
                                   @Qualifier("activityStageCSVService") CSVService activityStageCSVService,
                                   @Qualifier("bodyCSVService") CSVService bodyCSVService,
-                                  @Qualifier("heartrateCSVService") CSVService heartrateCSVService) {
+                                  @Qualifier("heartrateCSVService") CSVService heartrateCSVService,
+                                  @Qualifier("heartrateAutoCSVService") CSVService heartrateAutoCSVService) {
         this.activityCSVService = activityCSVService;
         this.activityMinuteCSVService = activityMinuteCSVService;
         this.activityStageCSVService = activityStageCSVService;
         this.bodyCSVService = bodyCSVService;
         this.heartrateCSVService = heartrateCSVService;
+        this.heartrateAutoCSVService = heartrateAutoCSVService;
     }
 
     @PostMapping ("/activity-data")
@@ -83,6 +87,15 @@ public class DataImporterController {
     public ResponseEntity<String> getHeartrateDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
 
         heartrateCSVService.save(file);
+        String message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        return ResponseEntity.status(OK)
+                .body(message);
+    }
+
+    @PostMapping("/heartrate-auto-data")
+    public ResponseEntity<String> getHeartrateAutoDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
+
+        heartrateAutoCSVService.save(file);
         String message = "Uploaded the file successfully: " + file.getOriginalFilename();
         return ResponseEntity.status(OK)
                 .body(message);

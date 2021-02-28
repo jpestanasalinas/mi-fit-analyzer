@@ -31,7 +31,8 @@ class DataImporterControllerTest {
             "/import/activity-minute-data",
             "/import/activity-stage-data",
             "/import/body-data",
-            "/import/heartrate-data"
+            "/import/heartrate-data",
+            "/import/heartrate-auto-data"
     );
 
     @Autowired
@@ -47,6 +48,8 @@ class DataImporterControllerTest {
     private BodyCSVService bodyCSVService;
     @MockBean
     private HeartrateCSVService heartrateCSVService;
+    @MockBean
+    private HeartrateAutoCSVService heartrateAutoCSVService;
 
     @Test
     void whenInvalidFileTypeExceptionShouldReturnBadRequest() throws Exception {
@@ -58,6 +61,7 @@ class DataImporterControllerTest {
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(activityStageCSVService).save(file);
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(bodyCSVService).save(file);
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(heartrateCSVService).save(file);
+        doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(heartrateAutoCSVService).save(file);
 
         performRequestsExpecting(status().isBadRequest(), file);
     }
@@ -72,6 +76,7 @@ class DataImporterControllerTest {
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(activityStageCSVService).save(file);
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(bodyCSVService).save(file);
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(heartrateCSVService).save(file);
+        doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(heartrateAutoCSVService).save(file);
 
         performRequestsExpecting(status().isExpectationFailed(), file);
     }
@@ -86,6 +91,7 @@ class DataImporterControllerTest {
         doNothing().when(activityStageCSVService).save(file);
         doNothing().when(bodyCSVService).save(file);
         doNothing().when(heartrateCSVService).save(file);
+        doNothing().when(heartrateAutoCSVService).save(file);
 
         performRequestsExpecting(status().isOk(), file);
     }

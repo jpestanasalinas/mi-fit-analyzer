@@ -57,3 +57,12 @@ CREATE TABLE heartrate (
   heartRate INT,
   timestamp TIMESTAMP
 );
+
+DROP TABLE IF EXISTS heartrateAuto;
+
+CREATE TABLE heartrateAuto (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  date DATE,
+  time TIMESTAMP,
+  heartRate INT
+  );
