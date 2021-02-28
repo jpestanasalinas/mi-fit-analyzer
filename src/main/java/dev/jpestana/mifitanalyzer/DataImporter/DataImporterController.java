@@ -33,6 +33,8 @@ public class DataImporterController {
 
     private final CSVService sleepCSVService;
 
+    private final CSVService sportCSVService;
+
     @Autowired
     public DataImporterController(@Qualifier("activityCSVService") CSVService activityCSVService,
                                   @Qualifier("activityMinuteCSVService") CSVService activityMinuteCSVService,
@@ -40,7 +42,8 @@ public class DataImporterController {
                                   @Qualifier("bodyCSVService") CSVService bodyCSVService,
                                   @Qualifier("heartrateCSVService") CSVService heartrateCSVService,
                                   @Qualifier("heartrateAutoCSVService") CSVService heartrateAutoCSVService,
-                                  @Qualifier("sleepCSVService") CSVService sleepCSVService) {
+                                  @Qualifier("sleepCSVService") CSVService sleepCSVService,
+                                  @Qualifier("sportCSVService") CSVService sportCSVService) {
         this.activityCSVService = activityCSVService;
         this.activityMinuteCSVService = activityMinuteCSVService;
         this.activityStageCSVService = activityStageCSVService;
@@ -48,6 +51,7 @@ public class DataImporterController {
         this.heartrateCSVService = heartrateCSVService;
         this.heartrateAutoCSVService = heartrateAutoCSVService;
         this.sleepCSVService = sleepCSVService;
+        this.sportCSVService = sportCSVService;
     }
 
     @PostMapping ("/activity-data")
@@ -109,6 +113,15 @@ public class DataImporterController {
     public ResponseEntity<String> getSleepDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
 
         sleepCSVService.save(file);
+        String message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        return ResponseEntity.status(OK)
+                .body(message);
+    }
+
+    @PostMapping("/sport-data")
+    public ResponseEntity<String> getSportDataFromCSV(@RequestParam("file") MultipartFile file) throws IOException {
+
+        sportCSVService.save(file);
         String message = "Uploaded the file successfully: " + file.getOriginalFilename();
         return ResponseEntity.status(OK)
                 .body(message);

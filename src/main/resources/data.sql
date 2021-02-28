@@ -71,6 +71,7 @@ CREATE TABLE heartrateAuto (
 
   CREATE TABLE sleep (
     id INT AUTO_INCREMENT  PRIMARY KEY,
+    date DATE,
     lastSyncTime TIMESTAMP,
     deepSleepTime INT,
     shallowSleepTime INT,
@@ -78,3 +79,17 @@ CREATE TABLE heartrateAuto (
     start TIMESTAMP,
     stop TIMESTAMP
     );
+
+      DROP TABLE IF EXISTS sport;
+
+      CREATE TABLE sport (
+        id INT AUTO_INCREMENT  PRIMARY KEY,
+        type INT,
+        startTime TIMESTAMP,
+        sportTime INT,
+        distance INT,
+        maxPace INT,
+        minPace INT,
+        avgPace INT,
+        calories DECIMAL
+        );

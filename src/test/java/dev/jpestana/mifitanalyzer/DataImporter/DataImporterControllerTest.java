@@ -33,7 +33,8 @@ class DataImporterControllerTest {
             "/import/body-data",
             "/import/heartrate-data",
             "/import/heartrate-auto-data",
-            "/import/sleep-data"
+            "/import/sleep-data",
+            "/import/sport-data"
     );
 
     @Autowired
@@ -53,6 +54,8 @@ class DataImporterControllerTest {
     private HeartrateAutoCSVService heartrateAutoCSVService;
     @MockBean
     private SleepCSVService sleepCSVService;
+    @MockBean
+    private SportCSVService sportCSVService;
 
     @Test
     void whenInvalidFileTypeExceptionShouldReturnBadRequest() throws Exception {
@@ -66,6 +69,7 @@ class DataImporterControllerTest {
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(heartrateCSVService).save(file);
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(heartrateAutoCSVService).save(file);
         doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(sleepCSVService).save(file);
+        doThrow(new InvalidFileTypeException(INVALID_FILE_MESSAGE)).when(sportCSVService).save(file);
 
         performRequestsExpecting(status().isBadRequest(), file);
     }
@@ -82,6 +86,7 @@ class DataImporterControllerTest {
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(heartrateCSVService).save(file);
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(heartrateAutoCSVService).save(file);
         doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(sleepCSVService).save(file);
+        doThrow(new IOException(COULD_NOT_PROCESS_FILE_MESSAGE)).when(sportCSVService).save(file);
 
         performRequestsExpecting(status().isExpectationFailed(), file);
     }
@@ -98,6 +103,7 @@ class DataImporterControllerTest {
         doNothing().when(heartrateCSVService).save(file);
         doNothing().when(heartrateAutoCSVService).save(file);
         doNothing().when(sleepCSVService).save(file);
+        doNothing().when(sportCSVService).save(file);
 
         performRequestsExpecting(status().isOk(), file);
     }
